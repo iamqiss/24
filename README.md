@@ -18,6 +18,7 @@
 
 ![Status](https://img.shields.io/badge/status-in%20development-black?style=flat-square)
 ![Rust](https://img.shields.io/badge/rust-1.78+-orange?style=flat-square&logo=rust)
+![Blinc](https://img.shields.io/badge/blinc-fork-7a2bff?style=flat-square)
 ![SurrealDB](https://img.shields.io/badge/surrealdb-3.0-pink?style=flat-square)
 ![License](https://img.shields.io/badge/license-proprietary-red?style=flat-square)
 ![Platform](https://img.shields.io/badge/platform-iOS%20%7C%20Android-blue?style=flat-square)
@@ -34,7 +35,7 @@ You get 24 hours. Say what you mean. Then let it go.
 
 No permanent record. No engagement archaeology. No doomscrolling through someone's timeline from three years ago. Just people, in the present, saying things that matter *right now.*
 
-This is the monorepo for the 24 platform — mobile app, backend API, real-time infrastructure, and background workers.
+This is the monorepo for the 24 platform — mobile app (iOS + Android), backend API, real-time infrastructure, and background workers. **The entire stack is Rust.** No JavaScript frameworks. No web runtime overhead. One language, end to end.
 
 ---
 
@@ -58,7 +59,7 @@ This is the monorepo for the 24 platform — mobile app, backend API, real-time 
 ### 24+ (subscription)
 - **Set your own post lifetime** — 48h, 7 days, 30 days, or indefinitely
 - **Verified badge** — the blue tick that means something
-- **Ghost replies** 👻 — comment on posts without your profile showing. pure plausible deniability
+- **Ghost replies** 👻 — comment on posts without your profile showing
 - **Post Vault** — your expired posts live in a private archive only you can see
 - **Hearth Themes** — 4+ beautiful app themes beyond the default monochrome
   - `Ember` — warm amber and terracotta
@@ -77,23 +78,30 @@ This is the monorepo for the 24 platform — mobile app, backend API, real-time 
 
 | Layer | Technology |
 |---|---|
-| **Mobile** | React Native (Expo) · Expo Router |
+| **Mobile UI (iOS + Android)** | [Blinc](https://github.com/project-blinc/Blinc) (forked) — GPU-accelerated reactive UI in Rust |
+| **Rendering** | wgpu · Metal (iOS) · Vulkan (Android) |
 | **Backend API** | Rust · Axum |
-| **Real-time layer** | [Blinc](https://github.com/project-blinc) (forked) |
 | **Database** | SurrealDB 3.0 |
 | **Background jobs** | Rust worker binary |
-| **State (mobile)** | Zustand |
 | **Payments** | RevenueCat |
-| **Monorepo** | Turbo + pnpm workspaces + Cargo workspace |
+| **Monorepo** | Cargo workspace |
 | **Infra** | Docker · Kubernetes · Terraform |
+
+### Pure Rust, all the way down
+
+There are no web frameworks here. No JavaScript. No React Native. No Expo.
+
+The mobile app is built on a fork of [Blinc](https://blinc.rs) — a GPU-accelerated, reactive UI framework for Rust with fine-grained signals, declarative views, and a wgpu renderer that compiles natively to iOS (Metal/UIKit) and Android (NDK/Vulkan) from a single source tree. Same codebase, same language, two platforms.
+
+The backend is Axum on Rust. The database is SurrealDB 3.0. The worker is a Rust binary. The shared types are Rust crates. The whole thing is one Cargo workspace.
 
 ### On the Blinc fork
 
-24 uses a fork of [project-blinc](https://github.com/project-blinc) for its real-time layer. The upstream project is moving in a direction that doesn't fit 24's architecture needs, so we maintain our own branch with targeted patches for ephemeral event handling and post expiry hooks. See [`services/blinc/UPSTREAM_DIFF.md`](./services/blinc/UPSTREAM_DIFF.md) for a running diff of our divergences.
+24 uses a fork of [project-blinc/Blinc](https://github.com/project-blinc/Blinc). The upstream project's current roadmap priorities don't align with what 24 needs right now — specifically around widget completeness and the direction of the Zyntax DSL. Our fork patches directly where needed and stays lean. See [`services/blinc/UPSTREAM_DIFF.md`](./services/blinc/UPSTREAM_DIFF.md) for a running diff of divergences from upstream.
 
 ### On SurrealDB 3.0
 
-The social graph (follows, circles membership, relationships between users and content) maps naturally to SurrealDB's multi-model architecture. Graph queries for feed ranking and circle discovery are written in SurrealQL and live in [`services/api/src/db/queries/`](./services/api/src/db/queries/).
+The social graph (follows, circle membership, relationships between users and content) maps naturally to SurrealDB's multi-model architecture. Graph queries for feed ranking and circle discovery are written in SurrealQL and live in [`services/api/src/db/queries/`](./services/api/src/db/queries/).
 
 ---
 
@@ -102,16 +110,13 @@ The social graph (follows, circles membership, relationships between users and c
 ```
 24/
 ├── apps/
-│   ├── mobile/          # React Native — the actual product
-│   └── web/             # Next.js marketing site
+│   └── mobile/          # Blinc app — iOS + Android from one source tree
 ├── services/
 │   ├── api/             # Core Rust API (Axum)
-│   ├── blinc/           # Forked real-time layer
+│   ├── blinc/           # Forked Blinc UI framework
 │   └── worker/          # Background jobs (post reaper, feed ranker…)
 ├── packages/
-│   ├── core/            # Shared Rust crate
-│   ├── types/           # Shared TypeScript types
-│   └── config/          # ESLint, Prettier, TS base configs
+│   └── core/            # Shared Rust crate — models, utils
 ├── infra/               # Docker, Kubernetes, Terraform
 └── docs/                # Architecture, ADRs, API spec
 ```
@@ -125,9 +130,10 @@ The social graph (follows, circles membership, relationships between users and c
 ### Prerequisites
 
 - Rust 1.78+
-- Node.js 20+ with pnpm
 - Docker + Docker Compose
 - SurrealDB CLI (`surreal` in your PATH)
+- Xcode (for iOS builds)
+- Android NDK (for Android builds)
 
 ### Local development
 
@@ -135,9 +141,6 @@ The social graph (follows, circles membership, relationships between users and c
 # Clone
 git clone https://github.com/neoqiss/24.git
 cd 24
-
-# Install JS dependencies
-pnpm install
 
 # Start local infrastructure (SurrealDB, etc.)
 docker-compose -f infra/docker/docker-compose.yml up -d
@@ -150,9 +153,11 @@ surreal import --conn ws://localhost:8000 \
 # Start the API
 cargo run -p api
 
-# In a separate terminal — start the mobile app
-cd apps/mobile
-pnpm start
+# Build + run mobile (iOS simulator)
+cargo run -p mobile --target aarch64-apple-ios-sim
+
+# Build + run mobile (Android emulator)
+cargo run -p mobile --target aarch64-linux-android
 ```
 
 Copy `.env.example` to `.env` and fill in your secrets before running anything.
@@ -166,6 +171,7 @@ Key decisions are documented as ADRs in [`docs/ADRs/`](./docs/ADRs/):
 - [`001-surreal-over-postgres.md`](./docs/ADRs/001-surreal-over-postgres.md)
 - [`002-rust-axum-api.md`](./docs/ADRs/002-rust-axum-api.md)
 - [`003-24h-expiry-strategy.md`](./docs/ADRs/003-24h-expiry-strategy.md)
+- [`004-blinc-over-react-native.md`](./docs/ADRs/004-blinc-over-react-native.md)
 
 ---
 
@@ -173,10 +179,10 @@ Key decisions are documented as ADRs in [`docs/ADRs/`](./docs/ADRs/):
 
 Posts are not deleted on a cron schedule. The expiry system works in two parts:
 
-1. **`expiry_worker.rs`** — a background job that runs continuously, querying for posts past their TTL and hard-deleting or vaulting them (based on the user's subscription entitlements)
-2. **`CountdownRing` (mobile)** — a real-time UI component that reflects remaining life, pulling from a WebSocket event stream. Posts glow differently as they approach expiry. Under 2 hours: the ring turns red.
+1. **`expiry_worker.rs`** — a background job that runs continuously, querying for posts past their TTL and hard-deleting or vaulting them based on the user's subscription entitlements
+2. **`CountdownRing`** — a Blinc component driven by fine-grained signals, reflecting remaining post life in real time via a WebSocket event stream. Posts render differently as they approach expiry. Under 2 hours: the ring turns red.
 
-Paid users who have the Vault entitlement have their expired posts moved to a private archive, not deleted. The vault is never surfaced publicly.
+Paid users with the Vault entitlement have their expired posts moved to a private archive, not deleted. The vault is never surfaced publicly.
 
 ---
 
@@ -228,6 +234,7 @@ This is not open source. This is not MIT. This is not "feel free to fork."
 
 <div align="center">
 
+*Built in Johannesburg.*
 
 `"say it. mean it. watch it burn."`
 
