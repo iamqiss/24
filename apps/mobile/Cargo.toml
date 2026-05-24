@@ -1,0 +1,23 @@
+[package]
+name    = "mobile"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+blinc_app.workspace            = true
+blinc_layout.workspace         = true
+blinc_animation.workspace      = true
+blinc_gpu.workspace            = true
+blinc_theme.workspace          = true
+blinc_cn.workspace             = true
+blinc_platform.workspace       = true
+blinc_platform_ios     = { version = "0.5", optional = true }
+blinc_platform_android = { version = "0.5", optional = true }
+blinc-fork  = { path = "../../services/blinc" }
+proto-gen   = { path = "../../packages/proto-gen" }
+core        = { path = "../../packages/core" }
+tonic.workspace  = true
+tokio.workspace  = true
+serde.workspace  = true
+uuid.workspace   = true
+anyhow.workspace = true

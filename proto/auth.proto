@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package twentyfour.auth;
+
+option java_package = "app.twentyfour.proto";
+
+service AuthService {
+  rpc Register (RegisterRequest) returns (RegisterResponse);
+  rpc Login (LoginRequest) returns (LoginResponse);
+  rpc RefreshToken (RefreshTokenRequest) returns (RefreshTokenResponse);
+  rpc Logout (LogoutRequest) returns (LogoutResponse);
+  rpc OAuthCallback (OAuthCallbackRequest) returns (OAuthCallbackResponse);
+  rpc DeleteAccount (DeleteAccountRequest) returns (DeleteAccountResponse);
+}
+
+// TODO: define request / response messages

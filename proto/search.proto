@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package twentyfour.search;
+
+option java_package = "app.twentyfour.proto";
+
+service SearchService {
+  rpc Search (SearchRequest) returns (SearchResponse);
+  rpc Trending (TrendingRequest) returns (TrendingResponse);
+  rpc Suggestions (SuggestRequest) returns (SuggestResponse);
+  rpc NearbyUsers (NearbyRequest) returns (UserListResponse);
+}
+
+// TODO: define request / response messages

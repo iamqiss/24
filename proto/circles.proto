@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package twentyfour.circles;
+
+option java_package = "app.twentyfour.proto";
+
+service CirclesService {
+  rpc CreateCircle (CreateCircleRequest) returns (Circle);
+  rpc GetCircle (GetCircleRequest) returns (Circle);
+  rpc UpdateCircle (UpdateCircleRequest) returns (Circle);
+  rpc DeleteCircle (DeleteCircleRequest) returns (DeleteResponse);
+  rpc JoinCircle (JoinCircleRequest) returns (JoinResponse);
+  rpc LeaveCircle (LeaveCircleRequest) returns (LeaveResponse);
+  rpc GetCircleFeed (GetCircleFeedRequest) returns (FeedResponse);
+  rpc SearchCircles (SearchCirclesRequest) returns (CircleListResponse);
+  rpc BanMember (BanMemberRequest) returns (BanResponse);
+  rpc GetMembers (GetMembersRequest) returns (UserListResponse);
+}
+
+// TODO: define request / response messages

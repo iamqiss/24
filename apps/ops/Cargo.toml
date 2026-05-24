@@ -1,0 +1,24 @@
+[package]
+name    = "ops"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "ops"
+path = "src/main.rs"
+
+[dependencies]
+blinc_app.workspace            = true
+blinc_layout.workspace         = true
+blinc_animation.workspace      = true
+blinc_gpu.workspace            = true
+blinc_theme.workspace          = true
+blinc_cn.workspace             = true
+blinc_platform_desktop = "0.5"
+blinc-fork  = { path = "../../services/blinc" }
+proto-gen   = { path = "../../packages/proto-gen" }
+core        = { path = "../../packages/core" }
+tonic.workspace  = true
+tokio.workspace  = true
+serde.workspace  = true
+anyhow.workspace = true

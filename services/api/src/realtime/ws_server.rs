@@ -1,0 +1,1 @@
+// WebSocket upgrade + connection management

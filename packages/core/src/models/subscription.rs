@@ -1,0 +1,1 @@
+// subscription domain model

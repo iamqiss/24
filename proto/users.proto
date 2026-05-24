@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package twentyfour.users;
+
+option java_package = "app.twentyfour.proto";
+
+service UsersService {
+  rpc GetProfile (GetProfileRequest) returns (UserProfile);
+  rpc UpdateProfile (UpdateProfileRequest) returns (UserProfile);
+  rpc FollowUser (FollowRequest) returns (FollowResponse);
+  rpc UnfollowUser (UnfollowRequest) returns (UnfollowResponse);
+  rpc GetFollowers (GetFollowersRequest) returns (UserListResponse);
+  rpc GetFollowing (GetFollowingRequest) returns (UserListResponse);
+  rpc BlockUser (BlockRequest) returns (BlockResponse);
+  rpc UnblockUser (UnblockRequest) returns (UnblockResponse);
+  rpc MuteUser (MuteRequest) returns (MuteResponse);
+  rpc ReportUser (ReportRequest) returns (ReportResponse);
+  rpc SearchUsers (SearchRequest) returns (UserListResponse);
+  rpc GetSuggested (SuggestRequest) returns (UserListResponse);
+}
+
+// TODO: define request / response messages

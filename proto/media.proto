@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package twentyfour.media;
+
+option java_package = "app.twentyfour.proto";
+
+service MediaService {
+  rpc RequestUploadUrl (UploadUrlRequest) returns (UploadUrlResponse);
+  rpc ConfirmUpload (ConfirmUploadRequest) returns (ConfirmUploadResponse);
+  rpc DeleteMedia (DeleteMediaRequest) returns (DeleteResponse);
+  rpc GetMediaInfo (MediaInfoRequest) returns (MediaInfo);
+}
+
+// TODO: define request / response messages

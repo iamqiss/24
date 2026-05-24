@@ -1,0 +1,12 @@
+// Module declarations
+pub mod client;
+pub mod auth;
+pub mod posts;
+pub mod comments;
+pub mod users;
+pub mod circles;
+pub mod messages;
+pub mod notifications;
+pub mod search;
+pub mod subscriptions;
+pub mod media;

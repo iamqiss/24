@@ -1,0 +1,11 @@
+[package]
+name    = "blinc-fork"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+blinc_app.workspace       = true
+blinc_layout.workspace    = true
+blinc_animation.workspace = true
+blinc_gpu.workspace       = true
+blinc_theme.workspace     = true

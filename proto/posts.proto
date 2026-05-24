@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package twentyfour.posts;
+
+option java_package = "app.twentyfour.proto";
+
+service PostsService {
+  rpc CreatePost (CreatePostRequest) returns (Post);
+  rpc GetPost (GetPostRequest) returns (Post);
+  rpc DeletePost (DeletePostRequest) returns (DeleteResponse);
+  rpc GetFeed (GetFeedRequest) returns (FeedResponse);
+  rpc LikePost (LikeRequest) returns (LikeResponse);
+  rpc DislikePost (DislikeRequest) returns (DislikeResponse);
+  rpc RepostPost (RepostRequest) returns (RepostResponse);
+  rpc BookmarkPost (BookmarkRequest) returns (BookmarkResponse);
+  rpc GetPostStats (GetPostStatsRequest) returns (PostStats);
+  rpc BoostPost (BoostRequest) returns (BoostResponse);
+  rpc StreamFeed (StreamFeedRequest) returns (stream FeedEvent);
+}
+
+// TODO: define request / response messages

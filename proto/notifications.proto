@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package twentyfour.notifications;
+
+option java_package = "app.twentyfour.proto";
+
+service NotificationsService {
+  rpc GetNotifications (GetNotificationsRequest) returns (NotificationListResponse);
+  rpc MarkRead (MarkReadRequest) returns (MarkReadResponse);
+  rpc StreamNotifications (StreamRequest) returns (stream Notification);
+  rpc UpdatePreferences (UpdatePrefRequest) returns (NotificationPrefs);
+  rpc ClearAll (ClearAllRequest) returns (ClearAllResponse);
+}
+
+// TODO: define request / response messages

@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package twentyfour.moderation;
+
+option java_package = "app.twentyfour.proto";
+
+service ModerationService {
+  rpc ReportContent (ReportContentRequest) returns (ReportResponse);
+  rpc ReviewReport (ReviewReportRequest) returns (ReviewResponse);
+  rpc BanUser (BanUserRequest) returns (BanResponse);
+  rpc UnbanUser (UnbanUserRequest) returns (UnbanResponse);
+  rpc ShadowbanUser (ShadowbanRequest) returns (ShadowbanResponse);
+  rpc GetReportQueue (ReportQueueRequest) returns (ReportQueueResponse);
+  rpc AutoModDecision (AutoModRequest) returns (AutoModResponse);
+  rpc AppealDecision (AppealRequest) returns (AppealResponse);
+  rpc GetActionHistory (ActionHistoryRequest) returns (ActionHistoryResponse);
+  rpc FlagContent (FlagContentRequest) returns (FlagResponse);
+}
+
+// TODO: define request / response messages

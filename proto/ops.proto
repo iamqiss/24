@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package twentyfour.ops;
+
+option java_package = "app.twentyfour.proto";
+
+service OpsService {
+  rpc GetDashboardStats (DashboardStatsRequest) returns (DashboardStats);
+  rpc GetUserDetail (UserDetailRequest) returns (UserDetail);
+  rpc GetReportQueue (OpsReportQueueRequest) returns (OpsReportQueueResponse);
+  rpc GetAuditLog (AuditLogRequest) returns (AuditLogResponse);
+  rpc GetSystemHealth (HealthRequest) returns (HealthResponse);
+  rpc TakeAction (TakeActionRequest) returns (TakeActionResponse);
+  rpc GetActiveIncidents (IncidentRequest) returns (IncidentListResponse);
+  rpc CreateIncident (CreateIncidentRequest) returns (Incident);
+  rpc ResolveIncident (ResolveIncidentRequest) returns (Incident);
+  rpc GetMetrics (MetricsRequest) returns (MetricsResponse);
+  rpc StreamMetrics (StreamMetricsRequest) returns (stream MetricEvent);
+  rpc GetFeatureFlags (FeatureFlagsRequest) returns (FeatureFlags);
+  rpc SetFeatureFlag (SetFeatureFlagRequest) returns (FeatureFlag);
+  rpc GetOpsUsers (OpsUsersRequest) returns (OpsUsersResponse);
+  rpc CreateOpsUser (CreateOpsUserRequest) returns (OpsUser);
+}
+
+// TODO: define request / response messages

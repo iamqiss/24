@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package twentyfour.comments;
+
+option java_package = "app.twentyfour.proto";
+
+service CommentsService {
+  rpc CreateComment (CreateCommentRequest) returns (Comment);
+  rpc DeleteComment (DeleteCommentRequest) returns (DeleteResponse);
+  rpc GetComments (GetCommentsRequest) returns (CommentListResponse);
+  rpc GhostReply (GhostReplyRequest) returns (Comment);
+  rpc LikeComment (LikeCommentRequest) returns (LikeResponse);
+  rpc ReportComment (ReportCommentRequest) returns (ReportResponse);
+}
+
+// TODO: define request / response messages

@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package twentyfour.messages;
+
+option java_package = "app.twentyfour.proto";
+
+service MessagesService {
+  rpc SendMessage (SendMessageRequest) returns (Message);
+  rpc GetConversation (GetConversationRequest) returns (ConversationResponse);
+  rpc GetConversations (GetConversationsRequest) returns (ConversationListResponse);
+  rpc CreateGroupChat (CreateGroupChatRequest) returns (Conversation);
+  rpc DeleteMessage (DeleteMessageRequest) returns (DeleteResponse);
+  rpc MarkRead (MarkReadRequest) returns (MarkReadResponse);
+  rpc StreamMessages (StreamMessagesRequest) returns (stream Message);
+  rpc ReactToMessage (ReactRequest) returns (ReactResponse);
+}
+
+// TODO: define request / response messages

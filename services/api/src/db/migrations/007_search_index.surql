@@ -1,0 +1,1 @@
+-- migration: 007_search_index

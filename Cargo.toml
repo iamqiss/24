@@ -1,0 +1,35 @@
+[workspace]
+resolver = "2"
+
+members = [
+    "apps/mobile",
+    "apps/ops",
+    "services/api",
+    "services/worker",
+    "services/blinc",
+    "packages/core",
+    "packages/proto-gen",
+]
+
+[workspace.dependencies]
+tokio              = { version = "1", features = ["full"] }
+tonic              = "0.12"
+prost              = "0.13"
+tonic-build        = "0.12"
+axum               = "0.7"
+surrealdb          = "3"
+serde              = { version = "1", features = ["derive"] }
+serde_json         = "1"
+anyhow             = "1"
+thiserror          = "1"
+tracing            = "0.1"
+tracing-subscriber = "0.3"
+uuid               = { version = "1", features = ["v4", "serde"] }
+chrono             = { version = "0.4", features = ["serde"] }
+blinc_app          = "0.5"
+blinc_layout       = "0.5"
+blinc_animation    = "0.5"
+blinc_gpu          = "0.5"
+blinc_theme        = "0.5"
+blinc_cn           = "0.5"
+blinc_platform     = "0.5"

@@ -1,0 +1,10 @@
+// Module declarations
+pub mod auth;
+pub mod dashboard;
+pub mod users;
+pub mod reports;
+pub mod moderation;
+pub mod incidents;
+pub mod audit_log;
+pub mod metrics;
+pub mod settings;

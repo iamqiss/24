@@ -1,0 +1,1 @@
+// reaction_bar component

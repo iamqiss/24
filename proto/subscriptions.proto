@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package twentyfour.subscriptions;
+
+option java_package = "app.twentyfour.proto";
+
+service SubscriptionsService {
+  rpc GetEntitlements (GetEntitlementsRequest) returns (Entitlements);
+  rpc ValidateReceipt (ValidateReceiptRequest) returns (ValidateResponse);
+  rpc WebhookRevenueCat (WebhookRequest) returns (WebhookResponse);
+  rpc GetPlans (GetPlansRequest) returns (PlansResponse);
+  rpc CancelSubscription (CancelRequest) returns (CancelResponse);
+}
+
+// TODO: define request / response messages
